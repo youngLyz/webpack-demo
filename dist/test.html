@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>起步</title>	
+	<style type="text/css">
+		select{
+			width: 100px;
+			height: 30px;
+			line-height: 30px;
+			font-size: 14px;
+		}
+		table{
+			margin: 20px 0;
+			border-top: 1px solid #ddd;
+			border-left: 1px solid #ddd;
+		}
+		table td{
+			font-size: 14px;
+			width: 50px;
+			height: 30px;
+			text-align: center;			
+			border-right: 1px solid #ddd;
+			border-bottom: 1px solid #ddd;	
+		}
+	</style>
+</head>
+<body>
+	<div id="wrapper"></div>
+
+	<select id="s1"></select>
+	<select id="s2"></select>
+	<select id="s3"></select>
+	
+   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+   <script type="text/javascript">
+   	$(function(){
+   		$("#wrapper").html(sortArray());
+
+   		let $s1 = $("#s1"),$s2 = $("#s2"),$s3 = $("#s3");
+   		let data = {
+   			options:[1,2,3,4,5,6,7,8,9,10],
+   			copyOpt:$.extend([],this.options)
+   		};
+   		initSelect(data,$s1,$s2,$s3);
+   		$s1.change(function(e){
+   			let sv1 = parseInt($s1.val());
+   			data.copyOpt = $.extend([],data.options);
+   			data.copyOpt.splice(data.copyOpt.indexOf(sv1),1);
+   			let optText = generateOptions(data.copyOpt);	   	
+	   		$s2.html('').append(optText);
+	   		$s3.html('').append(optText);
+   		});
+   		$s2.change(function(e){
+   			let sv2 = parseInt($s2.val());
+   			data.copyOpt.splice(data.copyOpt.indexOf(sv2),1);
+   			let optText = generateOptions(data.copyOpt);	   		   		
+	   		$s3.html('').append(optText);
+   		});
+
+   	})
+   	function initSelect(data,$s1,$s2,$s3){
+   		let optText = generateOptions(data.options);
+   		$s1.append(optText);
+   		$s2.append(optText);
+   		$s3.append(optText);
+   	}
+   	function generateOptions(arr){
+   		let optArr = [];
+   		arr.forEach((item,index)=>{
+   			optArr.push("<option>"+item+"</option>");
+   		});
+   		return optArr.join('');
+   	}
+   	
+   	function sortArray(){
+		let arr = [ 
+			[1, 2, 33, 5],
+			[2, 10, 15, 16],
+			[3, 1, 21, 20]
+			];
+				
+		let rowLen = arr.length;
+		let colLen = arr[0].length;
+		let copyArr = [];
+		for(let i=0;i<colLen;i++){	
+			let max = arr[0][i];
+			for(let j=1;j<rowLen;j++){
+				if(arr[j][i]>max){
+					max = arr[j][i]
+				}
+			}
+			copyArr.push(max);
+		}
+		
+		let wrapper = "<table>";	
+		arr.forEach((item,index)=>{
+			let row = "<tr>";
+			item.forEach((item_,index_)=>{			
+				let isBig = copyArr[index_]===item_;
+				let style = isBig?"font-weight:bold;":"";
+				row += "<td style='"+style+"'>"+item_+"</td>";
+			});
+			wrapper += row + "</tr>";
+		})
+		wrapper += "</table>";
+		return wrapper;	
+	}
+   </script>
+</body>
+</html>
