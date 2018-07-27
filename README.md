@@ -1,7 +1,8 @@
 # webpack-demo
 learn webpack
 
-webpack创建项目
+#webpack创建项目
+
 1、mkdir webpack-demo && cd webpack-demo
 2、npm init -y
 3、npm install webpack webpack-cli --save-dev
